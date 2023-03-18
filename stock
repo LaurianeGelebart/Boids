@@ -1,0 +1,50 @@
+
+void Boid::move(p6::Context& ctx){
+    if((int)(ctx.time()*20)%(p6::random::integer(50, 87)) == 0){
+        this->_angle += (float)(p6::random::integer(-10, 10))*M_PI/180.0; 
+        this->turn();   
+   }
+}
+
+
+void Boid::boost()
+{
+    this->_direction = glm::mat3(
+        Vec(cos(_angle), -sin(_angle), 0.), 
+        Vec(sin(_angle), cos(_angle), 0.), 
+        Vec(0., 0., 1.)) * this->_direction ; 
+    // this->_direction.x = cos(_angle) ; 
+    // this->_direction.y = sin(_angle) ;
+}
+
+void Boid::turn()
+{
+    this->_direction = glm::mat3(
+        Vec(cos(this->_angle), -sin(this->_angle), 0.), 
+        Vec(sin(this->_angle), cos(this->_angle), 0.), 
+        Vec(0., 0., 1.)) * this->_direction ; 
+    // this->_direction.x = cos(_angle) ; 
+    // this->_direction.y = sin(_angle) ;
+}
+
+
+
+void Boid::set_boost(float boost){
+    this->_boost = boost ; 
+}
+
+
+
+            this->bounce(obstacles[i]); 
+            
+void Boid::bounce(Obstacle obstacle)
+{
+    Vec normal = Vec(this->_position.x - obstacle.get_position().x , this->_position.y - obstacle.get_position().y , 0.);
+    normal = glm::normalize(normal); 
+    Vec T = Vec(normal.y , -normal.x, 0.) ; 
+    float vt = glm::dot(this->_direction, T); 
+    std::cout << vt << "\n";
+    float vn = glm::dot(this->_direction, 2.f*normal); 
+    this->_direction = vt*T - vn*normal ; 
+    //this->_direction = glm::refract(this->_direction, normal, 2.f);
+}
