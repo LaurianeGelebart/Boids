@@ -137,22 +137,33 @@ void Boid::collision_obstacles(const std::vector<Obstacle>& obstacles, IHM ihm)
     for (size_t i=0 ; i<sizeof(obstacles); i++){
         double distance = this->distance(obstacles[i].get_position());
         if(distance < obstacles[i].get_radius()){
-            if (this->_position.x > obstacles[i].get_position().x){
-                this->_direction.x = this->_direction.x + ihm.get_turn_factor()*10; 
-            }
-            if (this->_position.x < obstacles[i].get_position().x) {
-                this->_direction.x = this->_direction.x - ihm.get_turn_factor()*10; 
-            }
-            if (this->_position.y > obstacles[i].get_position().y){
-                this->_direction.y = this->_direction.y + ihm.get_turn_factor()*10; 
-            } 
-            if (this->_position.y < obstacles[i].get_position().y){
-                this->_direction.y = this->_direction.y -  ihm.get_turn_factor()*10; 
-            }
+            // if (this->_position.x > obstacles[i].get_position().x){
+            //     this->_direction.x = this->_direction.x + ihm.get_turn_factor()*10; 
+            // }
+            // if (this->_position.x < obstacles[i].get_position().x) {
+            //     this->_direction.x = this->_direction.x - ihm.get_turn_factor()*10; 
+            // }
+            // if (this->_position.y > obstacles[i].get_position().y){
+            //     this->_direction.y = this->_direction.y + ihm.get_turn_factor()*10; 
+            // } 
+            // if (this->_position.y < obstacles[i].get_position().y){
+            //     this->_direction.y = this->_direction.y -  ihm.get_turn_factor()*10; 
+            // }
+            this->bounce(obstacles[i]); 
         }
     }
     limit_speed(ihm); 
 } 
+
+void Boid::bounce(Obstacle obstacle)
+{
+    Vec normal = Vec(this->_position.x - obstacle.get_position().x , this->_position.y - obstacle.get_position().y , 0.);
+    normal = glm::normalize(normal); 
+    Vec T = Vec(normal.y , -normal.x, 0.) ; 
+    float vt = glm::dot(this->_direction, T); 
+    float vn = glm::dot(this->_direction, 2.f*normal); 
+    this->_direction = ( vt*T - vn*normal ); 
+}
 
 
 void Boid::limit_speed(IHM ihm)

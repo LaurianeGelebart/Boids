@@ -34,6 +34,7 @@ class Boid {
 
         void collision(const std::vector<Boid>& boids, const std::vector<Obstacle>& obstacles, IHM ihm);  
         void collision_bords(IHM ihm); 
+        void bounce(Obstacle obstacle); 
         void collision_obstacles(const std::vector<Obstacle>& obstacles, IHM ihm); 
         void collision_boids(const std::vector<Boid>& boids, IHM ihm);
 
