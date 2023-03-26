@@ -50,8 +50,8 @@ int main(int argc, char* argv[])
         for(int i=0 ; i<nb_boids ; i++)
         {   
             boids[i].draw(ctx) ;
-            boids[i].collision(boids, obstacles, ihm) ;
-            boids[i].set_position() ; 
+            boids[i].collision(boids, obstacles, ihm, ctx) ;
+            boids[i].update_position() ; 
         } ;  
 
         for(int j=0 ; j<nb_obstacles ; j++)

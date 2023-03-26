@@ -7,7 +7,7 @@
 
 using Vec = glm::vec3 ; 
 
-class Obstacle {
+class Obstacle { // TODO name that makes it clear that it is a circle
 
     private : 
         Vec _position ; 

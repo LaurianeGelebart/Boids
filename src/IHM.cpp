@@ -1,28 +1,21 @@
 #include "IHM.hpp"
 #include <iostream>
     
-IHM::IHM()
+IHM::IHM()  // TODO remove it and move default value to .hpp
 {
-    this->_turn_factor = 0.0005 ; 
-    this->_matching_factor = 0.03 ; 
-    this->_avoid_factor = 0.005 ; 
-    this->_centering_factor = 0.0005 ; 
-    this->_too_close = 0.08 ; 
-    this->_close = 0.25 ; 
-    this->_speed = 0.01 ; 
 }
 
 void IHM::draw()
 {
     ImGui::Begin("Set params");
 
-    float f = this->_close ; 
+    float f = this->_detection_radius ; 
     ImGui::SliderFloat("Close", &f, 0.1f, 1.0f);
-    this->_close = f ; 
+    this->_detection_radius = f ; 
 
-    float f2 = this->_too_close ; 
+    float f2 = this->_collision_radius ; 
     ImGui::SliderFloat("Too close", &f2, 0.01f, 0.5f);
-    this->_too_close = f2 ; 
+    this->_collision_radius = f2 ; 
 
     float f3 = this->_turn_factor*1000 ; 
     ImGui::SliderFloat("Turn factor", &f3, 0.1f, 1.0f);
@@ -51,12 +44,12 @@ float IHM::get_centering_factor() {
   return this->_centering_factor ; 
 }
 
-float IHM::get_too_close(){
-  return this->_too_close ; 
+float IHM::get_collision_radius(){
+  return this->_collision_radius ; 
 }
 
-float IHM::get_close() {
-  return this->_close ; 
+float IHM::get_detection_radius() {
+  return this->_detection_radius ; 
 } 
 
 float IHM::get_speed() {
