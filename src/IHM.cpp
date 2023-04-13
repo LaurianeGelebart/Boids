@@ -25,6 +25,14 @@ void IHM::draw()
     ImGui::SliderFloat("Speed", &f4, 0.001f, 0.03f);
     this->_speed = f4; 
 
+    int i1 = this->_nb_boids ; 
+    ImGui::SliderInt("Boids", &i1, 0, 200);
+    this->_nb_boids = i1; 
+
+    int i2 = this->_nb_obstacles ; 
+    ImGui::SliderInt("Obstacles", &i2, 0, 10);
+    this->_nb_obstacles = i2; 
+
     ImGui::End();
 }
 
@@ -54,4 +62,12 @@ float IHM::get_detection_radius() {
 
 float IHM::get_speed() {
   return this->_speed ; 
+}
+
+int IHM::get_nb_obstacles() {
+  return this->_nb_obstacles ; 
+} 
+
+int IHM::get_nb_boids() {
+  return this->_nb_boids ; 
 }

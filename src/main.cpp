@@ -8,6 +8,50 @@
 #include "Obstacle.hpp"
 #include "Boid.hpp"
 
+
+std::vector<Boid> boids; 
+std::vector<Obstacle> obstacles; 
+
+
+void add_or_remove_boids(IHM &ihm)
+{
+    int nb_boids = boids.size(); 
+     if (nb_boids<ihm.get_nb_boids()){ 
+        for(int i=0 ; i< ihm.get_nb_boids()-nb_boids ; i++){
+            Boid b ; 
+            boids.push_back(b);
+        }
+        nb_boids = ihm.get_nb_boids(); 
+    } 
+    else if (nb_boids>ihm.get_nb_boids()){
+        for(int i=0 ; i< nb_boids-ihm.get_nb_boids() ; i++){
+            boids.pop_back();
+        }
+        nb_boids = ihm.get_nb_boids();
+    }
+}
+
+
+void add_or_remove_obstacles(IHM &ihm)
+{
+    int nb_obstacles = obstacles.size(); 
+    if (nb_obstacles<ihm.get_nb_obstacles()){
+        for(int i=0 ; i< ihm.get_nb_obstacles()-nb_obstacles ; i++){
+            Obstacle o ; 
+            obstacles.push_back(o);
+        }
+        nb_obstacles = ihm.get_nb_obstacles(); 
+    } 
+    else if (nb_obstacles>ihm.get_nb_obstacles()){
+        for(int i=0 ; i< nb_obstacles-ihm.get_nb_obstacles() ; i++){
+            obstacles.pop_back();
+        }
+        nb_obstacles = ihm.get_nb_obstacles();
+    }
+}
+
+
+
 int main(int argc, char* argv[])
 {
     { // Run the tests
@@ -25,17 +69,12 @@ int main(int argc, char* argv[])
         
     IHM ihm ; 
 
-    int nb_boids = 40; 
-    int nb_obstacles = 3; 
-
-    std::vector<Boid> boids; 
-     for(int i=0 ; i<nb_boids ; i++){
+     for(int i=0 ; i<ihm.get_nb_boids() ; i++){
          Boid b ; 
          boids.push_back(b);
      }
 
-     std::vector<Obstacle> obstacles; 
-     for(int i=0 ; i<nb_obstacles ; i++){
+     for(int i=0 ; i<ihm.get_nb_obstacles() ; i++){
          Obstacle o ; 
          obstacles.push_back(o);
      }
@@ -47,17 +86,20 @@ int main(int argc, char* argv[])
      
         ihm.draw(); 
 
-        for(int i=0 ; i<nb_boids ; i++)
+        for(size_t i=0 ; i<boids.size() ; i++)
         {   
             boids[i].draw(ctx) ;
             boids[i].collision(boids, obstacles, ihm, ctx) ;
             boids[i].update_position() ; 
         } ;  
 
-        for(int j=0 ; j<nb_obstacles ; j++)
+        for(size_t j=0 ; j<obstacles.size() ; j++)
         {   
             obstacles[j].draw(ctx) ;
         } ; 
+
+       add_or_remove_boids(ihm) ; 
+       add_or_remove_obstacles(ihm) ; 
 
     };
 
